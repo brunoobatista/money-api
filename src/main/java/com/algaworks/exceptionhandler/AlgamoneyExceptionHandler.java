@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.algaworks.services.exception.LancamentoInexistenteException;
 import org.apache.commons.lang3	.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -60,6 +61,14 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
+	@ExceptionHandler({ LancamentoInexistenteException.class })
+	public ResponseEntity<Object> handleLancamentoInexistenteException(Exception ex) {
+		String mensagemUsuario = messageSource.getMessage("lancamento.inexistente", null, LocaleContextHolder.getLocale());
+		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erros);
 	}
 	
 	private List<Erro> criarListaErros(BindingResult bindingResult) {

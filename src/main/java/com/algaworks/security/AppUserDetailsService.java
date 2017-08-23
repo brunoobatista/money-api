@@ -29,8 +29,8 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(email);
         Usuario usuario = usuarioOptional.orElseThrow(() -> new UsernameNotFoundException("Usuário e/ou senha incorretos"));
-        return new User(email, usuario.getSenha(), getPermissoes(usuario));
-    }
+        return new UsuarioSistema(getPermissoes(usuario), usuario);
+}
 
     private Collection<? extends GrantedAuthority> getPermissoes(Usuario usuario) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();

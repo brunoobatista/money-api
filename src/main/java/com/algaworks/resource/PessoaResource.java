@@ -5,8 +5,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.algaworks.repository.filter.PessoaFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,8 +43,8 @@ public class PessoaResource {
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and #oauth2.hasScope('read')")
-	public List<Pessoa> lista() {
-		return pessoaRepository.findAll();
+	public Page<Pessoa> pesquisar(PessoaFilter pessoaFilter, Pageable pageable) {
+		return pessoaRepository.filtrar(pessoaFilter, pageable);
 	}
 	
 	@GetMapping("/{codigo}")
