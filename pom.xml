@@ -5,28 +5,20 @@
 
 	<groupId>com.algaworks</groupId>
 	<artifactId>algamoney-api</artifactId>
-<<<<<<< HEAD
+
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>algamoney-api</name>
-	<description></description>
-=======
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<description>Aplicativo de controle</description>
 
-	<name>algamoney-api</name>
-	<description>Demo project for Spring Boot</description>
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-<<<<<<< HEAD
+
 		<version>1.5.7.RELEASE</version>
-=======
-		<version>1.5.4.RELEASE</version>
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
+
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -37,10 +29,7 @@
 	</properties>
 
 	<dependencies>
-<<<<<<< HEAD
-	
-=======
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -60,25 +49,15 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
-<<<<<<< HEAD
-		<!-- Postgres -->
-=======
+
 		<!-- PostgreSQL -->
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-<<<<<<< HEAD
 
-		
 		<!-- Migracoes - Flyway -->
-=======
-		
-		<!-- FlyWay -->
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
@@ -86,13 +65,8 @@
 		
 		<!-- Hibernate Java 8 Support -->
 		<dependency>
-<<<<<<< HEAD
     		<groupId>org.hibernate</groupId>
     		<artifactId>hibernate-java8</artifactId>
-=======
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-java8</artifactId>
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		</dependency>
 		
 		<!-- Suporte do Jackson para as datas do Java 8 -->
@@ -100,44 +74,25 @@
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
-		
-<<<<<<< HEAD
-=======
+
 		<!-- Commons Lang -->
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
-<<<<<<< HEAD
-		
-=======
 
 		<!-- Spring Security -->
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-<<<<<<< HEAD
-		
-=======
 
 		<!-- OAuth 2 -->
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
 			<artifactId>spring-security-oauth2</artifactId>
 		</dependency>
-<<<<<<< HEAD
-		
-		<dependency>
-    		<groupId>org.springframework.security</groupId>
-    		<artifactId>spring-security-jwt</artifactId>
-		</dependency>
-
-=======
 
 		<!-- JWT -->
 		<dependency>
@@ -146,16 +101,12 @@
 		</dependency>
 
 		<!-- Properties configuration -->
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
-<<<<<<< HEAD
-=======
-		
->>>>>>> b515b10a96f215d1e69341f2de99eb0c15d34f05
+
 	</dependencies>
 
 	<build>
