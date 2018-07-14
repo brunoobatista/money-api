@@ -1,5 +1,6 @@
 package com.algaworks.resource;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.algaworks.dto.LancamentoEstatisticaCategoria;
+import com.algaworks.dto.LancamentoEstatisticaDia;
 import com.algaworks.repository.projection.ResumoLancamento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -44,6 +47,18 @@ public class LancamentoResource {
 	
 	@Autowired
 	private MessageSource messageSource;
+
+	@GetMapping("/estatisticas/por-dia")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public List<LancamentoEstatisticaDia> porDia() {
+		return lancamentoRepository.porDia(LocalDate.of(2018, 03,10));
+	}
+
+	@GetMapping("/estatisticas/por-categoria")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public List<LancamentoEstatisticaCategoria> porCategoria() {
+		return lancamentoRepository.porCategoria(LocalDate.now());
+	}
 
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
