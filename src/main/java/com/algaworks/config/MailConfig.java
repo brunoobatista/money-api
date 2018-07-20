@@ -20,7 +20,7 @@ public class MailConfig {
         Properties properties = new Properties();
         properties.put("mail.transport.protocol", "smtp");
         properties.put("mail.smtp.auth", true);
-        properties.put("mail.starttls", true);
+        properties.put("mail.smtp.starttls.enable", true);
         properties.put("mail.smtp.connectiontimeout", 10000);
 
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
