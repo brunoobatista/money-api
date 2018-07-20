@@ -58,10 +58,12 @@ public class LancamentoResource {
 			@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate fim) throws Exception {
 		byte[] relatorio = lancamentoService.relatorioPorPessoa(inicio, fim);
 
-		return ResponseEntity.ok().header(
-				HttpHeaders.CONTENT_TYPE,
-				MediaType.APPLICATION_PDF_VALUE)
-			.body(relatorio);
+		HttpHeaders headers = new HttpHeaders();
+		headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE);
+		headers.add("Content-Disposition", "attachment; filename=relatorioPorPessoa.pdf");
+		return ResponseEntity.ok()
+				.headers(headers)
+				.body(relatorio);
 	}
 
 	@GetMapping("/estatisticas/por-dia")
