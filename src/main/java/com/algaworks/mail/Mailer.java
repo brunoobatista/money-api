@@ -1,5 +1,7 @@
 package com.algaworks.mail;
 
+import com.algaworks.model.Lancamento;
+import com.algaworks.model.Usuario;
 import com.algaworks.repository.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +12,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class Mailer {
@@ -34,6 +37,20 @@ public class Mailer {
         this.enviarEmail("brunoliveirabatista@gmail.com", Arrays.asList("brunorafael.o@hotmail.com"),
                 "Testando", template, variaveis);
     }*/
+
+    public void avisarSobreLancamentosVencidos(List<Lancamento> vencidos,
+                                               List<Usuario> destinatarios) {
+        Map<String, Object> variaveis = new HashMap<>();
+        variaveis.put("lancamentos", vencidos);
+        List<String> emails = destinatarios.stream()
+                .map(u -> u.getEmail())
+                .collect(Collectors.toList());
+        this.enviarEmail("brunoliveirabatista@gmail.com",
+                emails,
+                "Lançamentos Vencidos",
+                "mail/aviso-lancamentos-vencidos",
+                variaveis);
+    }
 
     public void enviarEmail(String remetente, List<String> destinatarios,
                             String assunto, String template, Map<String, Object> variaveis) {

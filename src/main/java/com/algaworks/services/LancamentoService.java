@@ -2,6 +2,9 @@ package com.algaworks.services;
 
 
 import com.algaworks.dto.LancamentoEstatisticaPessoa;
+import com.algaworks.mail.Mailer;
+import com.algaworks.model.Usuario;
+import com.algaworks.repository.UsuarioRepository;
 import com.algaworks.services.exception.LancamentoInexistenteException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -30,17 +33,31 @@ import java.util.Map;
 
 @Service
 public class LancamentoService {
-	
+
+	private static final String DESTINATARIOS = "ROLE_PESQUISAR_LANCAMENTO";
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private Mailer mailer;
+
+	//@Scheduled(fixedDelay = 1000 * 60 * 30)
 	@Scheduled(cron = "0 0 6 * * *")
 	public void avisarSobreLancamentosVencidos() {
-        System.out.println("########## Método sendo executado");
-    }
+		List<Lancamento> vencidos = lancamentoRepository
+				.findByDataVencimentoLessThanEqualAndDataPagamentoIsNull(LocalDate.now());
+
+		List<Usuario> usuarios = usuarioRepository
+				.findByPermissoesDescricao(DESTINATARIOS);
+
+		mailer.avisarSobreLancamentosVencidos(vencidos, usuarios);
+	}
 
 	public byte[] relatorioPorPessoa(LocalDate inicio, LocalDate fim) throws Exception {
 		List<LancamentoEstatisticaPessoa> dados = lancamentoRepository.porPessoa(inicio, fim);
