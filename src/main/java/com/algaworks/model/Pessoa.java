@@ -1,17 +1,14 @@
 package com.algaworks.model;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
 
 @Entity
 @Table(name = "pessoa")
@@ -27,6 +24,11 @@ public class Pessoa {
 	
 	@NotNull
 	private Boolean ativo;
+
+	@Valid
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("pessoa")
+	private List<Contato> contados;
 	
 	@Valid
 	@NotNull
@@ -64,7 +66,15 @@ public class Pessoa {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
+	public List<Contato> getContados() {
+		return contados;
+	}
+
+	public void setContados(List<Contato> contados) {
+		this.contados = contados;
+	}
+
 	@JsonIgnore
 	@Transient
 	public boolean isInativo() {
