@@ -26,7 +26,8 @@ public class Pessoa {
 	private Boolean ativo;
 
 	@Valid
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL,
+		orphanRemoval = true)
 	@JsonIgnoreProperties("pessoa")
 	private List<Contato> contados;
 	
