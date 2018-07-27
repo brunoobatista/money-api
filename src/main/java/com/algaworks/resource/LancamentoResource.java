@@ -1,5 +1,8 @@
 package com.algaworks.resource;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +36,7 @@ import com.algaworks.repository.filter.LancamentoFilter;
 import com.algaworks.services.LancamentoService;
 import com.algaworks.services.exception.PessoaInativaException;
 import com.algaworks.services.exception.PessoaInexistenteException;
+import org.springframework.web.multipart.MultipartFile;
 //import com.algaworks.services.exception.PessoaInexistenteOuInativaException;
 
 @RestController
@@ -50,6 +54,17 @@ public class LancamentoResource {
 	
 	@Autowired
 	private MessageSource messageSource;
+
+	@PostMapping("/anexo")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
+	public String uploadAnexo(@RequestParam("anexo") MultipartFile anexo) throws IOException {
+		String profile =  System.getenv("USERPROFILE");
+		OutputStream out = new FileOutputStream(
+			profile + "/anexo--" + anexo.getOriginalFilename());
+		out.write(anexo.getBytes());
+		out.close();
+		return "ok";
+	}
 
 	@GetMapping("/relatorios/por-pessoa")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
