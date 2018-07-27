@@ -34,6 +34,8 @@
 		<thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
 		<thymeleaf-extras-data-attribute.version>2.0.1</thymeleaf-extras-data-attribute.version>
+
+		<aws-java-skd.version>1.11.274</aws-java-skd.version>
 	</properties>
 
 	<dependencies>
@@ -158,6 +160,12 @@
 			<version>3.0.0.RELEASE</version>
 		</dependency>
 
+		<!-- S3 Amazon -->
+		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk</artifactId>
+			<version>${aws-java-skd.version}</version>
+		</dependency>
 
 	</dependencies>
 
