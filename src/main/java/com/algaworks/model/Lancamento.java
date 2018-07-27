@@ -1,5 +1,6 @@
 package com.algaworks.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonIgnore;
 
 import java.math.BigDecimal;
@@ -48,7 +49,8 @@ public class Lancamento {
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria")
 	private Categoria categoria;
-	
+
+	@JsonIgnoreProperties("contatos")
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
