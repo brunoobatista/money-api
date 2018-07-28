@@ -11,9 +11,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.algaworks.config.property.AlgamoneyApiProperty;
+import com.algaworks.dto.Anexo;
 import com.algaworks.dto.LancamentoEstatisticaCategoria;
 import com.algaworks.dto.LancamentoEstatisticaDia;
 import com.algaworks.repository.projection.ResumoLancamento;
+import com.algaworks.storage.S3;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
@@ -55,15 +58,14 @@ public class LancamentoResource {
 	@Autowired
 	private MessageSource messageSource;
 
+	@Autowired
+	private S3 s3;
+
 	@PostMapping("/anexo")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('write')")
-	public String uploadAnexo(@RequestParam("anexo") MultipartFile anexo) throws IOException {
-		String profile =  System.getenv("USERPROFILE");
-		OutputStream out = new FileOutputStream(
-			profile + "/anexo--" + anexo.getOriginalFilename());
-		out.write(anexo.getBytes());
-		out.close();
-		return "ok";
+	public Anexo uploadAnexo(@RequestParam("anexo") MultipartFile anexo) throws IOException {
+		String nome = s3.salvarTemporariamente(anexo);
+		return new Anexo(nome, s3.configurarUrl(nome));
 	}
 
 	@GetMapping("/relatorios/por-pessoa")
