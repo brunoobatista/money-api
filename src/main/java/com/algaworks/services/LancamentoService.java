@@ -6,6 +6,7 @@ import com.algaworks.mail.Mailer;
 import com.algaworks.model.Usuario;
 import com.algaworks.repository.UsuarioRepository;
 import com.algaworks.services.exception.LancamentoInexistenteException;
+import com.algaworks.storage.S3;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -23,6 +24,7 @@ import com.algaworks.repository.LancamentoRepository;
 import com.algaworks.repository.PessoaRepository;
 import com.algaworks.services.exception.PessoaInativaException;
 import com.algaworks.services.exception.PessoaInexistenteException;
+import org.springframework.util.StringUtils;
 
 import java.io.InputStream;
 import java.sql.Date;
@@ -50,6 +52,9 @@ public class LancamentoService {
 
 	@Autowired
 	private Mailer mailer;
+
+	@Autowired
+	private S3 s3;
 
 	//@Scheduled(fixedDelay = 1000 * 60 * 30)
 	@Scheduled(cron = "0 0 6 * * *")
@@ -106,6 +111,10 @@ public class LancamentoService {
 
 		validarPessoa(lancamento);
 
+		if (StringUtils.hasText(lancamento.getAnexo())) {
+			s3.salvar(lancamento.getAnexo());
+		}
+
 		return lancamentoRepository.save(lancamento);
 	}
 
@@ -113,6 +122,14 @@ public class LancamentoService {
 		Lancamento lancamentoSalvo = buscarLancamentoExistente(codigo);
 		if ( (lancamento.getPessoa() != null) && (!lancamento.getPessoa().equals(lancamentoSalvo.getPessoa())) ) {
 			validarPessoa(lancamento);
+		}
+
+		if (StringUtils.isEmpty(lancamento.getAnexo()) &&
+				StringUtils.hasText(lancamentoSalvo.getAnexo())) {
+			s3.remover(lancamentoSalvo.getAnexo());
+		} else if (StringUtils.hasText(lancamento.getAnexo()) &&
+				!lancamento.getAnexo().equals(lancamentoSalvo.getAnexo())) {
+			s3.substituir(lancamentoSalvo.getAnexo(), lancamento.getAnexo());
 		}
 
 		BeanUtils.copyProperties(lancamento, lancamentoSalvo, "codigo");

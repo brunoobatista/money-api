@@ -8,4 +8,3 @@ CREATE TABLE contato(
 );
 
 insert into contato(nome, email, telefone, codigo_pessoa) values('Maria Rita', 'mariarita@algamoney.com','3627-1031', 2);
-
