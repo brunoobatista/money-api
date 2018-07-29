@@ -16,6 +16,7 @@ import com.algaworks.dto.LancamentoEstatisticaCategoria;
 import com.algaworks.dto.LancamentoEstatisticaDia;
 import com.algaworks.dto.LancamentoEstatisticaPessoa;
 import com.algaworks.model.Categoria_;
+import com.algaworks.model.Lancamento_;
 import com.algaworks.model.Pessoa_;
 import com.algaworks.repository.projection.ResumoLancamento;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
 import com.algaworks.model.Lancamento;
-import com.algaworks.model.Lancamento_;
 import com.algaworks.repository.filter.LancamentoFilter;
 
 public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
