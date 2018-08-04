@@ -25,16 +25,24 @@ public class Pessoa {
 	@NotNull
 	private Boolean ativo;
 
+	@JsonIgnoreProperties("pessoa")
 	@Valid
 	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL,
 		orphanRemoval = true)
-	@JsonIgnoreProperties("pessoa")
-	private List<Contato> contados;
-	
+	private List<Contato> contatos;
+
 	@Valid
 	@NotNull
 	@Embedded
 	private Endereco endereco;
+
+	public List<Contato> getContatos() {
+		return contatos;
+	}
+
+	public void setContatos(List<Contato> contatos) {
+		this.contatos = contatos;
+	}
 
 	public Long getCodigo() {
 		return codigo;
@@ -66,14 +74,6 @@ public class Pessoa {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-
-	public List<Contato> getContados() {
-		return contados;
-	}
-
-	public void setContados(List<Contato> contados) {
-		this.contados = contados;
 	}
 
 	@JsonIgnore

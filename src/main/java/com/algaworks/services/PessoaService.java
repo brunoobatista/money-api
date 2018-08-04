@@ -15,15 +15,18 @@ public class PessoaService {
 	private PessoaRepository pessoaRepository;
 
 	public Pessoa salvar(Pessoa pessoa) {
-		pessoa.getContados().forEach(c -> c.setPessoa(pessoa));
+		pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
 		return pessoaRepository.save(pessoa);
 	}
 
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {
 		Pessoa pessoaSalva = buscarPessoaPeloCodigo(codigo);
-		pessoaSalva.getContados().clear();
-		pessoaSalva.getContados().addAll(pessoa.getContados());
-		pessoaSalva.getContados().forEach(c -> c.setPessoa(pessoaSalva));
+
+		pessoaSalva.getContatos().clear();
+		pessoaSalva.getContatos().addAll(pessoa.getContatos());
+
+		pessoaSalva.getContatos().forEach(c -> c.setPessoa(pessoaSalva));
+
 		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo", "contatos");
 		pessoaRepository.save(pessoaSalva);
 		
