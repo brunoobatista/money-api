@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.algaworks.model.Pessoa;
 import com.algaworks.repository.PessoaRepository;
 
+import java.util.Optional;
+
 @Service
 public class PessoaService {
 	
@@ -40,11 +42,11 @@ public class PessoaService {
 	}
 
 	public Pessoa buscarPessoaPeloCodigo(Long codigo) {
-		Pessoa pessoaSalva = pessoaRepository.findOne(codigo);
-		if (pessoaSalva == null) {
+		Optional<Pessoa> pessoaSalva = pessoaRepository.findById(codigo);
+		if (!pessoaSalva.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		return pessoaSalva;
+		return pessoaSalva.get();
 	}
 	
 }
