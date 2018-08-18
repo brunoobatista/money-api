@@ -29,10 +29,7 @@ import org.springframework.util.StringUtils;
 import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 //import com.algaworks.services.exception.PessoaInexistenteOuInativaException;
 
 @Service
@@ -138,15 +135,15 @@ public class LancamentoService {
 	}
 
 	private Lancamento buscarLancamentoExistente(Long codigo) {
-		Lancamento lancamentoSalvo = lancamentoRepository.findOne(codigo);
-		if (lancamentoSalvo == null) {
+		Optional<Lancamento> lancamentoSalvo = lancamentoRepository.findById(codigo);
+		if (!lancamentoSalvo.isPresent()) {
 			throw new LancamentoInexistenteException();
 		}
-		return lancamentoSalvo;
+		return lancamentoSalvo.get();
 	}
 
 	private void validarPessoa(Lancamento lancamento) {
-		Pessoa pessoa = pessoaRepository.findOne(lancamento.getPessoa().getCodigo());
+		Pessoa pessoa = pessoaRepository.getOne(lancamento.getPessoa().getCodigo());
 		if (pessoa == null) {
 			throw new PessoaInexistenteException();
 		} else if (pessoa.isInativo()) {
